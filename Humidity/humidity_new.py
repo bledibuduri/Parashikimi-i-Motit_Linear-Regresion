@@ -127,8 +127,16 @@ avg_monthly_humidity.reset_index(inplace=True)
 #plt.xlabel("Month")
 #plt.show()
 
-plt.figure(figsize=(20,10))
-plt.title("Lagështia Mesatare Mujore Nga 2018-2024")
-sns.barplot(x=avg_monthly_humidity['Timestamp'],y=avg_monthly_humidity['Humidity'], palette="mako")
-plt.xlabel("Month")
-plt.show()
+#plt.figure(figsize=(20,10))
+#plt.title("Lagështia Mesatare Mujore Nga 2018-2024")
+#sns.barplot(x=avg_monthly_humidity['Timestamp'],y=avg_monthly_humidity['Humidity'], palette="mako")
+#plt.xlabel("Month")
+#plt.show()
+
+#Analiza Korelacionit
+#data.corr(method = 'pearson')
+
+#plt.figure(figsize=(12,10))
+#plt.title("Correlation between all columns")
+#sns.heatmap(data= data.corr(), cmap="rocket", annot=True)
+#plt.show()
