@@ -8,36 +8,52 @@ import plotly.express as px
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# Hapi 1: Leximi i të dhënave (duhet të ketë një file CSV me kolonat 'Timestamp' dhe 'Humidity')
+#Leximi i të dhënave (duhet të ketë një file CSV me kolonat 'Timestamp' dhe 'Humidity')
 data = pd.read_csv('Humidity/humidity_filled.csv')
 
-# Hapi 2: Konvertimi i kolonës 'Timestamp' në tipin datetime dhe ekstraktimi i vitit dhe ores
+#Shikojmë rreshtat e parë të datasetit
+print(data.head())
+
+#Shikojmë se sa rreshta dhe kolona kemi brenda datasetit 
+print(data.shape)
+
+#Përdorim data.info() për të printuar informacione mbi DataFrame
+print(data.info())
+
+#Përdorim describre() për të parë disa statistika bazike 
+print(data.describe())
+
+# Kontrollon vlerat null ne kolonen 'Humidity'
+null_values = data['Humidity'].isnull().sum()
+print(f"Number of null values in 'Humidity' column: {null_values}")
+
+#Konvertimi i kolonës 'Timestamp' në tipin datetime dhe ekstraktimi i vitit dhe ores
 data['Timestamp'] = pd.to_datetime(data['Timestamp'])
 data['Year'] = data['Timestamp'].dt.year
 data['Month'] = data['Timestamp'].dt.month
 data['Day'] = data['Timestamp'].dt.day
 data['Hour'] = data['Timestamp'].dt.hour
 
-# Hapi 3: Përcaktimi i variablave të pavarur dhe të varur
+#Përcaktimi i variablave të pavarur dhe të varur
 X = data[['Year', 'Month', 'Day', 'Hour']]  # Feature columns (Viti, Muaji, Dita, Ora)
 y = data['Humidity']  # Target column (Lagështira)
 
-# Hapi 4: Ndara të dhënat në trajnime dhe test
+#Ndara të dhënat në trajnime dhe test
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Hapi 5: Krijimi dhe trajnimi i modelit të regresionit linear
+#Krijimi dhe trajnimi i modelit të regresionit linear
 model = LinearRegression()
 model.fit(X_train, y_train)
 
-# Hapi 6: Parashikimi mbi të dhënat e testuara
+#Parashikimi mbi të dhënat e testuara
 y_pred = model.predict(X_test)
 
-# Hapi 7: Vlerësimi i modelit
+#Vlerësimi i modelit
 mse = mean_squared_error(y_test, y_pred)
 print(f"Mean Squared Error: {mse}")
 print('R²:', r2_score(y_test, y_pred))
 
-# Hapi 8: Parashikimi për të gjithë vitin 2024 (për çdo orë nga 1 janari deri më 31 dhjetor)
+#Parashikimi për të gjithë vitin 2024 (për çdo orë nga 1 janari deri më 31 dhjetor)
 # Krijimi i të dhënave për secilën orë të vitit 2024
 date_rng = pd.date_range(start='2024-01-01 00:00:00', end='2024-12-31 23:00:00', freq='H')
 X_2024 = pd.DataFrame({
@@ -50,7 +66,7 @@ X_2024 = pd.DataFrame({
 # Parashikimi i lagështirës për vitin 2024
 y_2024_pred = model.predict(X_2024)
 
-# Hapi 9: Ruajtja e parashikimeve për vitin 2024 në një DataFrame
+#Ruajtja e parashikimeve për vitin 2024 në një DataFrame
 predicted_2024 = pd.DataFrame({
     'Timestamp': date_rng,
     'Humidity': y_2024_pred
@@ -60,10 +76,22 @@ predicted_2024 = pd.DataFrame({
 # Përsëri ruajmë vetëm kolonat Timestamp dhe Humidity
 all_data = pd.concat([data[['Timestamp', 'Humidity']], predicted_2024], ignore_index=True)
 
-# Hapi 10: Ruajtja e dataset-it të ri në një file CSV
+#Ruajtja e dataset-it të ri në një file CSV
 all_data.to_csv('Humidity/humidity_data_2018_2024.csv', index=False)
 
 print("Të dhënat janë ruajtur në file-in humidity_data_2018_2024.csv")
+
+#Shikojmë rreshtat e parë të datasetit
+print(all_data.head())
+
+#Shikojmë se sa rreshta dhe kolona kemi brenda datasetit 
+print(all_data.shape)
+
+#Përdorim data.info() për të printuar informacione mbi DataFrame
+print(all_data.info())
+
+#Përdorim describre() për të parë disa statistika bazike 
+print(all_data.describe())
 
 # Krijoni grafik interaktiv me plotly
 fig = px.line(all_data, x='Timestamp', y='Humidity', title="Humidity From 2018-2024")
@@ -72,7 +100,7 @@ fig = px.line(all_data, x='Timestamp', y='Humidity', title="Humidity From 2018-2
 fig.update_traces(mode='lines+markers', line=dict(color='red'))
 
 # Shfaq grafikun
-fig.show()
+#fig.show()
 
 all_data['Timestamp'] = pd.to_datetime(all_data['Timestamp'], utc=True, errors='coerce')
 print(all_data['Timestamp'].dtype)
