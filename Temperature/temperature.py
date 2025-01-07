@@ -118,18 +118,18 @@ plt.xticks(rotation=45)  # Rrotullon etiketat e boshtit X për lehtësim leximi
 plt.tight_layout()  # Siguron që grafiku të mos prerë ndonjë etiketë
 #plt.show()  # Shfaq grafikun
 
-avg_monthly_airpreasure = pd.DataFrame(all_data.groupby([all_data["Timestamp"].dt.month])["Temperature"].mean())
-avg_monthly_airpreasure.reset_index(inplace=True)
+avg_monthly_temperature = pd.DataFrame(all_data.groupby([all_data["Timestamp"].dt.month])["Temperature"].mean())
+avg_monthly_temperature.reset_index(inplace=True)
 
 plt.figure(figsize=(20,10))
 plt.title("Monthly Average Temperature From 2018-2024")
-sns.lineplot(x=avg_monthly_airpreasure['Timestamp'],y=avg_monthly_airpreasure['Temperature'])
+sns.lineplot(x=avg_monthly_temperature['Timestamp'],y=avg_monthly_temperature['Temperature'])
 plt.xlabel("Month")
 #plt.show()
 
 plt.figure(figsize=(20,10))
 plt.title("Temperatura Mesatare Mujore Nga 2018-2024")
-sns.barplot(x=avg_monthly_airpreasure['Timestamp'],y=avg_monthly_airpreasure['Temperature'], palette="mako")
+sns.barplot(x=avg_monthly_temperature['Timestamp'],y=avg_monthly_temperature['Temperature'], palette="mako")
 plt.xlabel("Month")
 #plt.show()
 

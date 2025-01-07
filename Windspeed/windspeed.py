@@ -69,11 +69,11 @@ y_2024_pred = model.predict(X_2024)
 #Ruajtja e parashikimeve për vitin 2024 në një DataFrame
 predicted_2024 = pd.DataFrame({
     'Timestamp': date_rng,
-    'Temperature': y_2024_pred
+    'WindSpeed': y_2024_pred
 })
 
 # Bashkimi i të dhënave ekzistuese me ato të parashikuara për vitin 2024
-# Përsëri ruajmë vetëm kolonat Timestamp dhe Temperature
+# Përsëri ruajmë vetëm kolonat Timestamp dhe WindSpeed
 all_data = pd.concat([data[['Timestamp', 'WindSpeed']], predicted_2024], ignore_index=True)
 
 #Ruajtja e dataset-it të ri në një file CSV
@@ -100,7 +100,7 @@ fig = px.line(all_data, x='Timestamp', y='WindSpeed', title="WindSpeed From 2018
 fig.update_traces(mode='lines+markers', line=dict(color='red'))
 
 # Shfaq grafikun
-#fig.show()
+fig.show()
 
 all_data['Timestamp'] = pd.to_datetime(all_data['Timestamp'], utc=True, errors='coerce')
 print(all_data['Timestamp'].dtype)
@@ -118,18 +118,18 @@ plt.xticks(rotation=45)  # Rrotullon etiketat e boshtit X për lehtësim leximi
 plt.tight_layout()  # Siguron që grafiku të mos prerë ndonjë etiketë
 #plt.show()  # Shfaq grafikun
 
-avg_monthly_airpreasure = pd.DataFrame(all_data.groupby([all_data["Timestamp"].dt.month])["WindSpeed"].mean())
-avg_monthly_airpreasure.reset_index(inplace=True)
+avg_monthly_windspeed = pd.DataFrame(all_data.groupby([all_data["Timestamp"].dt.month])["WindSpeed"].mean())
+avg_monthly_windspeed.reset_index(inplace=True)
 
 plt.figure(figsize=(20,10))
 plt.title("Monthly Average WindSpeed From 2018-2024")
-sns.lineplot(x=avg_monthly_airpreasure['Timestamp'],y=avg_monthly_airpreasure['WindSpeed'])
+sns.lineplot(x=avg_monthly_windspeed['Timestamp'],y=avg_monthly_windspeed['WindSpeed'])
 plt.xlabel("Month")
 #plt.show()
 
 plt.figure(figsize=(20,10))
 plt.title("Shpejtesia e Eres - Mesatarja Mujore Nga 2018-2024")
-sns.barplot(x=avg_monthly_airpreasure['Timestamp'],y=avg_monthly_airpreasure['WindSpeed'], palette="mako")
+sns.barplot(x=avg_monthly_windspeed['Timestamp'],y=avg_monthly_windspeed['WindSpeed'], palette="mako")
 plt.xlabel("Month")
 plt.show()
 
