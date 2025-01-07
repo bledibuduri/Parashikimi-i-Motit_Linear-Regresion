@@ -1,9 +1,7 @@
-# Advanced Data Modeling - Weather Data Prediction
+# Weather Data Prediction
 
 ## Overview
 This project involves the prediction of weather-related data, specifically air pressure, humidity, temperature, and wind speed, for the year 2024 using historical data from the Republic of Kosovo. The goal is to apply advanced data modeling techniques, focusing on Linear Regression, to forecast values for each of the weather parameters on an hourly basis.
-
-The project is being conducted as part of the **Master's program** in **Advanced Data Modeling and Databases** at the **University of Prizren**, under the supervision of **Prof. Asoc. Dr. Zirije Hasani**. The data has been provided by the course instructor, Prof. Hasani, to facilitate the completion of this research project.
 
 ## Project Components
 
