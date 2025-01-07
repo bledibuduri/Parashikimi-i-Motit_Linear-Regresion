@@ -131,7 +131,7 @@ plt.figure(figsize=(20,10))
 plt.title("Temperatura Mesatare Mujore Nga 2018-2024")
 sns.barplot(x=avg_monthly_temperature['Timestamp'],y=avg_monthly_temperature['Temperature'], palette="mako")
 plt.xlabel("Month")
-#plt.show()
+plt.show()
 
 #Analiza Korelacionit
 #data.corr(method = 'pearson')
