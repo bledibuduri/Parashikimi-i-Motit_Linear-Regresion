@@ -38,4 +38,37 @@ correlation_matrix = merged_data.corr()
 plt.figure(figsize=(12, 10))
 sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt=".2f", linewidths=0.5)
 plt.title('Correlation Matrix for Air Pressure, Humidity, Temperature, and Windspeed')
+#plt.show()
+
+# Shto kolona për vitin dhe muajin
+merged_data['Year'] = merged_data['Timestamp'].dt.year
+merged_data['Month'] = merged_data['Timestamp'].dt.month
+
+# Grupimi sipas vitit dhe muajit dhe llogaritja e temperaturës dhe lagështisë mesatare për secilën kategori
+monthly_avg = merged_data.groupby(['Year', 'Month'])[['Temperature', 'Humidity']].mean()
+
+# Vizualizimi i temperaturës dhe lagështisë mesatare për secilën muaj brenda një grafiku
+plt.figure(figsize=(12, 8))
+
+# Itero për secilin vit dhe krijo një linjë për temperaturën dhe lagështinë
+for year in monthly_avg.index.get_level_values('Year').unique():
+    year_data = monthly_avg.loc[year]
+    
+    # Temperatura
+    plt.plot(year_data.index, year_data['Temperature'], marker='o', label=f'Temperature ({year} - °C)')
+    
+    # Lagështia
+    plt.plot(year_data.index, year_data['Humidity'], marker='o', label=f'Humidity ({year} - %)')
+    
+# Titulli dhe etiketat
+plt.title('Average Monthly Temperature and Humidity by Year', fontsize=16)
+plt.xlabel('Month', fontsize=12)
+plt.ylabel('Value', fontsize=12)
+
+# Shtoni legjendën për të dalluar temperaturën dhe lagështinë
+plt.legend(loc='upper left')
+
+# Shfaq grafikun
+plt.tight_layout()
 plt.show()
+
