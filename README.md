@@ -1,69 +1,61 @@
 # Weather Data Prediction
 
 ## Overview
-This project involves the prediction of weather-related data, specifically air pressure, humidity, temperature, and wind speed, for the year 2024 using historical data from the Republic of Kosovo. The goal is to apply advanced data modeling techniques, focusing on Linear Regression, to forecast values for each of the weather parameters on an hourly basis.
+This project focuses on predicting weather-related data, specifically air pressure, humidity, temperature, and wind speed, for the year 2024 using historical data from the Republic of Kosovo. The primary goal is to use advanced data modeling techniques, such as Linear Regression, to forecast weather parameters on an hourly basis for 2024.
 
 ## Project Components
 
 ### 1. Data Collection
 The dataset contains hourly weather data from 2017 to 2023 for the following parameters:
-- **Air Pressure**
-- **Humidity**
-- **Temperature**
-- **Wind Speed**
+- Air Pressure
+- Humidity
+- Temperature
+- Wind Speed
 
-The data is provided in CSV files, with each file containing two columns:
-- `Timestamp`: The date and time of the data entry.
-- The respective weather parameter (`Air_Pressure`, `Humidity`, `Temperature`, `WindSpeed`).
+The data is stored in CSV files, where each file contains two columns:
+- **Timestamp**: The date and time of the data entry.
+- **Weather Parameter**: For example, `Air_Pressure`, `Humidity`, `Temperature`, `WindSpeed`.
 
 ### 2. Data Preprocessing
-The data underwent preprocessing steps, including:
-- **Timestamp Conversion**: The `Timestamp` column was converted into a numerical format (ordinal) to facilitate prediction using machine learning models.
-- **Cleaning**: Weather parameters such as `WindSpeed` were cleaned to remove any unnecessary units (e.g., `m/s` for wind speed).
+Before applying the linear regression model, the data is preprocessed:
+- The `Timestamp` column is converted into the `datetime` type to extract year, month, day, and hour.
+- Missing values in the dataset are checked and addressed (if any).
+- The dataset is split into training and test sets for model evaluation.
 
-### 3. Model Development
-For each weather parameter, the following steps were taken:
-1. **Data Splitting**: The dataset was split into training and testing sets (80% training, 20% testing).
-2. **Linear Regression**: A Linear Regression model was trained using the training data and evaluated on the testing set.
-3. **Prediction for 2024**: The model was used to predict the weather data for each hour of 2024, resulting in a forecasted dataset for the entire year.
+### 3. Linear Regression Model
+A linear regression model is used to predict the weather parameter (in this case, temperature) based on the extracted features (year, month, day, hour). The model is trained using the historical data and evaluated using metrics such as:
+- **Mean Squared Error (MSE)**
+- **R² Score**
 
-### 4. Data Visualization
-The results were visualized using **Matplotlib** to compare the original data with the predicted values for the year 2024.
+### 4. Forecasting for 2024
+After training the model, it is used to predict the weather data for each hour of the year 2024. A new dataset is generated for each hour from January 1st to December 31st, 2024. The forecasted temperature data is saved in a CSV file.
 
-### 5. Output
-The predictions for each parameter (Air Pressure, Humidity, Temperature, and Wind Speed) were saved in separate CSV files:
-- `predicted_air_pressure_2024.csv`
-- `predicted_humidity_2024.csv`
-- `predicted_temperature_2024.csv`
-- `predicted_windspeed_2024.csv`
+### 5. Data Visualization
+Various visualizations are created to present the data and predictions:
+- Interactive plots of the temperature trend from 2018 to 2024.
+- Monthly and yearly average temperature visualizations using Seaborn and Matplotlib.
+- Correlation analysis between different weather parameters.
 
-Additionally, graphical representations of the original data versus predicted values for 2024 were created.
+### 6. Correlation Analysis
+The correlation analysis is conducted by merging the datasets for different weather parameters (Air Pressure, Humidity, Temperature, and Wind Speed) and visualizing the relationships between them.
 
-## Project Files
+### 7. Conclusion
+This project demonstrates how Linear Regression can be applied to predict weather data based on historical trends. The predictions for 2024 provide insights into the expected temperature patterns throughout the year. The project also includes various visualizations that help in understanding the trends and patterns in the weather data.
 
-- `airpreasure.csv`: Original data for air pressure from 2017 to 2023.
-- `humidity.csv`: Original data for humidity from 2017 to 2023.
-- `temperature.csv`: Original data for temperature from 2017 to 2023.
-- `windspeed.csv`: Original data for wind speed from 2017 to 2023.
-- `predicted_air_pressure_2024.csv`: Predicted air pressure values for 2024.
-- `predicted_humidity_2024.csv`: Predicted humidity values for 2024.
-- `predicted_temperature_2024.csv`: Predicted temperature values for 2024.
-- `predicted_windspeed_2024.csv`: Predicted wind speed values for 2024.
-- 
-### Scripts Overview:
-
-- `temperature_prediction.py`: For predicting temperature in 2024.
-- `humidity_prediction.py`: For predicting humidity in 2024.
-- `windspeed_prediction.py`: For predicting wind speed in 2024.
-- `airpressure_prediction.py`: For predicting air pressure in 2024.
-
-## Requirements
-- Python 3.11+
+### 8. Requirements
+- Python 3.x
 - pandas
+- numpy
 - scikit-learn
+- plotly
 - matplotlib
+- seaborn
 
-To install the required packages, run:
+### 9. How to Run
+1. Clone this repository.
+2. Install the required dependencies: `pip install -r requirements.txt`.
+3. Place the historical weather data CSV files in the appropriate directory.
+4. Run the script to generate predictions for 2024 and visualizations.
 
-```bash
-pip install pandas scikit-learn matplotlib
+### 10. License
+This project is licensed under the MIT License.
