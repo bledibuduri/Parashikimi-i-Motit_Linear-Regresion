@@ -8,7 +8,8 @@ import plotly.express as px
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-#Leximi i të dhënave (duhet të ketë një file CSV me kolonat 'Timestamp' dhe 'Humidity')
+
+#Leximi i të dhënave 
 data = pd.read_csv('Temperature/temperature.csv')
 
 #Shikojmë rreshtat e parë të datasetit
@@ -38,7 +39,7 @@ data['Hour'] = data['Timestamp'].dt.hour
 X = data[['Year', 'Month', 'Day', 'Hour']]  # Feature columns (Viti, Muaji, Dita, Ora)
 y = data['Temperature']  # Target column (Lagështira)
 
-#Ndara të dhënat në trajnime dhe test
+#Ndarja e të dhënave në trajnim dhe testim
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 #Krijimi dhe trajnimi i modelit të regresionit linear
@@ -63,7 +64,7 @@ X_2024 = pd.DataFrame({
     'Hour': date_rng.hour
 })
 
-# Parashikimi i lagështirës për vitin 2024
+# Parashikimi i temperaturës për vitin 2024
 y_2024_pred = model.predict(X_2024)
 
 #Ruajtja e parashikimeve për vitin 2024 në një DataFrame

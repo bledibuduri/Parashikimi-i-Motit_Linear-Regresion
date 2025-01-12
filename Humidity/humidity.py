@@ -100,7 +100,7 @@ fig = px.line(all_data, x='Timestamp', y='Humidity', title="Humidity From 2018-2
 fig.update_traces(mode='lines+markers', line=dict(color='red'))
 
 # Shfaq grafikun
-#fig.show()
+fig.show()
 
 all_data['Timestamp'] = pd.to_datetime(all_data['Timestamp'], utc=True, errors='coerce')
 print(all_data['Timestamp'].dtype)

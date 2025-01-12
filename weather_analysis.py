@@ -38,7 +38,7 @@ correlation_matrix = merged_data.corr()
 plt.figure(figsize=(12, 10))
 sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt=".2f", linewidths=0.5)
 plt.title('Correlation Matrix for Air Pressure, Humidity, Temperature, and Windspeed')
-#plt.show()
+plt.show()
 
 # Shto kolona për vitin dhe muajin
 merged_data['Year'] = merged_data['Timestamp'].dt.year
@@ -50,23 +50,34 @@ monthly_avg = merged_data.groupby(['Year', 'Month'])[['Temperature', 'Humidity']
 # Vizualizimi i temperaturës dhe lagështisë mesatare për secilën muaj brenda një grafiku
 plt.figure(figsize=(12, 8))
 
-# Itero për secilin vit dhe krijo një linjë për temperaturën dhe lagështinë
+
+handles, labels = [], []
+
+# Itero për secilin vit dhe krijo një linjë për temperaturën dhe pastaj për lagështinë
 for year in monthly_avg.index.get_level_values('Year').unique():
     year_data = monthly_avg.loc[year]
     
     # Temperatura
-    plt.plot(year_data.index, year_data['Temperature'], marker='o', label=f'Temperature ({year} - °C)')
+    temp_line, = plt.plot(year_data.index, year_data['Temperature'], marker='o', label=f'Temperature ({year} - °C)')
+    handles.append(temp_line)
+    labels.append(f'Temperature ({year} - °C)')
+
+# Itero përsëri për të shtuar linjat për lagështinë
+for year in monthly_avg.index.get_level_values('Year').unique():
+    year_data = monthly_avg.loc[year]
     
     # Lagështia
-    plt.plot(year_data.index, year_data['Humidity'], marker='o', label=f'Humidity ({year} - %)')
-    
+    hum_line, = plt.plot(year_data.index, year_data['Humidity'], marker='o', label=f'Humidity ({year} - %)')
+    handles.append(hum_line)
+    labels.append(f'Humidity ({year} - %)')
+
 # Titulli dhe etiketat
 plt.title('Average Monthly Temperature and Humidity by Year', fontsize=16)
 plt.xlabel('Month', fontsize=12)
 plt.ylabel('Value', fontsize=12)
 
-# Shtoni legjendën për të dalluar temperaturën dhe lagështinë
-plt.legend(loc='upper left')
+# Shtoni legjendën me renditje të personalizuar
+plt.legend(handles, labels, loc='upper left')
 
 # Shfaq grafikun
 plt.tight_layout()
