@@ -109,17 +109,27 @@ yearly_data = all_data.set_index('Timestamp').resample('Y').mean()[1:]
 print(monthly_data.head())
 print(yearly_data)
 
-#plt.figure(figsize=(20, 10))
-#plt.title("Humidity From 2018-2024")
-#sns.lineplot(x=data['Timestamp'], y=data['Humidity'], marker='o', color='red')
-#plt.xlabel("Year")
-#plt.ylabel("Humidity")
-#plt.xticks(rotation=45)  # Rrotullon etiketat e boshtit X për lehtësim leximi
-#lt.tight_layout()  # Siguron që grafiku të mos prerë ndonjë etiketë
-#plt.show()  # Shfaq grafikun
+plt.figure(figsize=(20, 10))
+plt.title("Humidity From 2018-2024")
+sns.lineplot(x=data['Timestamp'], y=data['Humidity'], marker='o', color='red')
+plt.xlabel("Year")
+plt.ylabel("Humidity")
+plt.xticks(rotation=45)  # Rrotullon etiketat e boshtit X për lehtësim leximi
+plt.tight_layout()  # Siguron që grafiku të mos prerë ndonjë etiketë
+plt.show()  # Shfaq grafikun
+
 
 avg_monthly_humidity = pd.DataFrame(all_data.groupby([all_data["Timestamp"].dt.month])["Humidity"].mean())
 avg_monthly_humidity.reset_index(inplace=True)
+
+avg_yearly_humidity = pd.DataFrame(all_data.groupby([all_data['Timestamp'].dt.month])['Humidity'].mean())
+avg_yearly_humidity.reset_index(inplace=True)
+
+plt.figure(figsize=(20,10))
+plt.title("Yearly Average Humidity From 2018-2024")
+sns.lineplot(x=avg_yearly_humidity['Timestamp'],y=avg_yearly_humidity['Humidity'])
+plt.xlabel("Year")
+plt.show()
 
 #plt.figure(figsize=(20,10))
 #plt.title("Monthly Average Humidity From 2018-2024")
