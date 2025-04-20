@@ -21,7 +21,7 @@ data['Year'] = data['Timestamp'].dt.year
 data['Month'] = data['Timestamp'].dt.month
 data['Day'] = data['Timestamp'].dt.day
 data['Hour'] = data['Timestamp'].dt.hour
-# Krijohet një kolonë që përfaqëson ditën e vitit me pjesë dhore
+# Krijohet një kolonë që përfaqëson ditën e vitit me pjesë dhjetore ose ndryshe decimale 
 data['doy_float'] = data['Timestamp'].dt.dayofyear + data['Timestamp'].dt.hour / 24.0
 
 # ===========================
@@ -92,7 +92,7 @@ from dash.exceptions import PreventUpdate
 app = dash.Dash(__name__)
 
 app.layout = html.Div([
-    html.H1("Paraquitje Dinamike e të Dhënave të Lagështirës dhe Parashikimeve për 2024"),
+    html.H1("Paraqitje Dinamike e të Dhënave të Lagështirës dhe Parashikimeve për 2024"),
     # Store për ruajtjen e intervalit të përbashkët të x-aksit
     dcc.Store(id='shared-xaxis-range'),
     
@@ -136,12 +136,14 @@ def update_graphs(day_range, shared_range):
         if df_year_filtered.empty:
             continue
         fig = px.line(
-            df_year_filtered, 
-            x='doy_float', 
-            y='Humidity', 
-            title=f"Lagështira në Vitin {yr_int}",
-            labels={'doy_float': 'Dita e Vitit (me pjesë dhore)', 'Humidity': 'Lagështira (%)'}
-        )
+          df_year_filtered, 
+          x='doy_float', 
+          y='Humidity', 
+          title=f"Lagështira në Vitin {yr_int}",
+          labels={'doy_float': 'Dita e Vitit (me pjesë dhjetore)', 'Humidity': 'Lagështira (%)'},
+         markers=True  # Shton pika për çdo vlerë të dhënash
+         )
+
         if shared_range is not None:
             fig.update_layout(xaxis_range=shared_range)
         historical_graphs.append(
@@ -159,7 +161,7 @@ def update_graphs(day_range, shared_range):
         x='doy_float', 
         y='Humidity',
         title="2024 - Parashikimi: Linear Regression",
-        labels={'doy_float': 'Dita e Vitit (me pjesë dhore)', 'Humidity': 'Lagështira (%)'}
+        labels={'doy_float': 'Dita e Vitit (me pjesë dhjetore)', 'Humidity': 'Lagështira (%)'}
     )
     if shared_range is not None:
         fig_lr.update_layout(xaxis_range=shared_range)
@@ -177,7 +179,7 @@ def update_graphs(day_range, shared_range):
         x='doy_float', 
         y='Humidity',
         title="2024 - Parashikimi: Prophet",
-        labels={'doy_float': 'Dita e Vitit (me pjesë dhore)', 'Humidity': 'Lagështira (%)'}
+        labels={'doy_float': 'Dita e Vitit (me pjesë dhjetore)', 'Humidity': 'Lagështira (%)'}
     )
     if shared_range is not None:
         fig_prophet.update_layout(xaxis_range=shared_range)
@@ -195,7 +197,7 @@ def update_graphs(day_range, shared_range):
         x='doy_float', 
         y='Humidity',
         title="2024 - Parashikimi: SARIMA",
-        labels={'doy_float': 'Dita e Vitit (me pjesë dhore)', 'Humidity': 'Lagështira (%)'}
+        labels={'doy_float': 'Dita e Vitit (me pjesë dhjetore)', 'Humidity': 'Lagështira (%)'}
     )
     if shared_range is not None:
         fig_sarima.update_layout(xaxis_range=shared_range)
@@ -228,4 +230,4 @@ def update_shared_range(hist_relayout_list, forecast_relayout_list, current_rang
     return current_range
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(debug=True, dev_tools_ui=False, dev_tools_props_check=False)
